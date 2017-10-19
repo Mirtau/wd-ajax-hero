@@ -17,7 +17,9 @@
         'data-tooltip': movie.title
       });
 
-      $title.tooltip({ delay: 50 }).text(movie.title);
+      $title.tooltip({
+        delay: 50
+      }).text(movie.title);
 
       const $poster = $('<img>').addClass('poster');
 
@@ -55,24 +57,40 @@
       $('.modal-trigger').leanModal();
     }
   };
-$('button').on('click',function(hw){
-let input = $('#search').val();
-hw.preventDefault();
-console.log(input);
-if(input === ''){
-alert("enter movie title")
-}
-let xhr = $.getJSON('https://omdb-api.now.sh/?s=' + input);
+  $('button').on('click', function(hw) {
+    let input = $('#search').val();
+    $('#search').val('');
+    hw.preventDefault();
+    console.log(input);
+    if (input === '') {
+      alert("enter movie title")
+    }
+    let xhr = $.getJSON('https://omdb-api.now.sh/?s=' + input);
 
-xhr.done(function(movie){
-if(xhr.status !== 200){
-  return;
-}
-console.log(movie);
-});
+    xhr.done(function(movie) {
+      if (xhr.status !== 200) {
+
+        return;
+
+      }
+
+      var results = movie.Search;
 
 
-})
+      function Movie(Title, Year, Poster, imdbID) {
+        this.movie = Title;
+        this.poster = Poster;
+        this.year = Year
+        this.id = imdbID;
+      }
+      for (var i = 0; i < results.length; i++) {
+        movies.push(new Movie(results[i].Title, results[i].Year, results[i].Poster, results[i].imdbID))
+      }
+    
+      renderMovies()
 
-  // ADD YOUR CODE HERE
+    })
+
+  })
+
 })();
