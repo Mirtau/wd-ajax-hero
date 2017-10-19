@@ -55,6 +55,24 @@
       $('.modal-trigger').leanModal();
     }
   };
+$('button').on('click',function(hw){
+let input = $('#search').val();
+hw.preventDefault();
+console.log(input);
+if(input === ''){
+alert("enter movie title")
+}
+let xhr = $.getJSON('https://omdb-api.now.sh/?s=' + input);
+
+xhr.done(function(movie){
+if(xhr.status !== 200){
+  return;
+}
+console.log(movie);
+});
+
+
+})
 
   // ADD YOUR CODE HERE
 })();
