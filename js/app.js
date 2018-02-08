@@ -5,7 +5,7 @@
 
   const renderMovies = function() {
     $('#listings').empty();
-
+    $('.material-tooltip').remove();
     for (const movie of movies) {
       const $col = $('<div>').addClass('col s6');
       const $card = $('<div>').addClass('card hoverable');
@@ -57,7 +57,8 @@
       $('.modal-trigger').leanModal();
     }
   };
-  $('button').on('click', function(hw) {
+  $('button').on('click',  function(hw) {
+    movies.splice(0)
     let input = $('#search').val();
     $('#search').val('');
     hw.preventDefault();
@@ -69,24 +70,21 @@
 
     xhr.done(function(movie) {
       if (xhr.status !== 200) {
-
         return;
-
       }
 
-      var results = movie.Search;
 
-
+       var results = movie.Search;
       function Movie(Title, Year, Poster, imdbID) {
         this.movie = Title;
         this.poster = Poster;
         this.year = Year
         this.id = imdbID;
       }
+
       for (var i = 0; i < results.length; i++) {
         movies.push(new Movie(results[i].Title, results[i].Year, results[i].Poster, results[i].imdbID))
       }
-    
       renderMovies()
 
     })
